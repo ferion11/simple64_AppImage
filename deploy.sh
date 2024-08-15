@@ -37,6 +37,10 @@ wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10
 wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/o/openldap/libldap2_2.6.7+dfsg-1~exp1ubuntu8_amd64.deb -P $pkgcachedir
 wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-5ubuntu3_amd64.deb -P $pkgcachedir
 
+#base
+wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
+#wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
+
 
 #-------------------------------------------------
 sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev || die "* Cant install package dev!"
@@ -70,7 +74,7 @@ sudo chmod 777 ${pkgcachedir} -R
 #extras
 #wget -nv -c http://ftp.osuosl.org/pub/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-4_amd64.deb -P $pkgcachedir
 
-rm -rf ${pkgcachedir}/*dev*
+#rm -rf ${pkgcachedir}/*dev*
 
 find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
 echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
@@ -98,6 +102,9 @@ cat > "AppRun" << EOF
 HERE="\$(dirname "\$(readlink -f "\${0}")")"
 #-------------------------------------------------
 
+#LD
+export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
+
 export LD_LIBRARY_PATH="\$HERE/usr/lib/x86_64-linux-gnu":\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="\$HERE/lib":\$LD_LIBRARY_PATH
@@ -106,7 +113,7 @@ export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
 MAIN="\$HERE/simple64/simple64-gui"
 
 export PATH="\$HERE/simple64":\$PATH
-"\$MAIN" "\$@" | cat
+"${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
 EOF
 chmod +x AppRun
 
