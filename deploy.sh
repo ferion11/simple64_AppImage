@@ -39,7 +39,7 @@ wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_
 
 #base
 #wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
-wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-dev_2.80.0-6ubuntu3.1_amd64.deb -P $pkgcachedir
+#wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-dev_2.80.0-6ubuntu3.1_amd64.deb -P $pkgcachedir
 
 
 #-------------------------------------------------
