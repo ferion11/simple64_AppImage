@@ -29,8 +29,7 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net libhidapi libvulkan qt6-base libqt6websockets6
-#TODO: review the install of packages for appimage above
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng libsdl2 libsdl2-net libhidapi libvulkan qt6-base libqt6websockets6
 #-------------------------------------------------
 
 sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev
@@ -53,6 +52,8 @@ cd ..
 
 # using the package
 mkdir "${WORKDIR}"
+
+cp -r simple64-${MY_VERSION} "${WORKDIR}/"
 
 cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
 
