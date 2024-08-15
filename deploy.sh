@@ -32,7 +32,7 @@ mkdir -p ${pkgcachedir}
 sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net libhidapi-hidraw0
 #-------------------------------------------------
 
-sudo apt install -y libsdl2-dev libsdl2-net-dev
+sudo apt install -y libsdl2-dev libsdl2-net-dev libhidapi-hidraw0
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
