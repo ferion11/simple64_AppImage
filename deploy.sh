@@ -87,6 +87,10 @@ cat > "AppRun" << EOF
 HERE="\$(dirname "\$(readlink -f "\${0}")")"
 #-------------------------------------------------
 
+# If not extract and overwrite, $HERE/lib is a link to $HERE/usr/lib, that link to $HERE/usr/lib64
+export LD_LIBRARY_PATH="$HERE/usr/lib":$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$HERE/lib":$LD_LIBRARY_PATH
+
 MAIN="\$HERE/simple64-${P_VERSION}/simple64"
 
 export PATH="\$HERE/simple64-${P_VERSION}":\$PATH
