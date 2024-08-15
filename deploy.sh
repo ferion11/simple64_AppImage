@@ -31,12 +31,11 @@ mkdir -p ${pkgcachedir}
 
 sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls || die "* Cant install package deps!"
 
-#extras: libcurl3t64-gnutls libssh libldap2
+#extras: libcurl3t64-gnutls libssh libldap2 libsasl2
 wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
 wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10.6-2build2_amd64.deb -P $pkgcachedir
 wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/o/openldap/libldap2_2.6.7+dfsg-1~exp1ubuntu8_amd64.deb -P $pkgcachedir
-
-#rm -rf ${pkgcachedir}/*dev*
+wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-5ubuntu3_amd64.deb -P $pkgcachedir
 
 #-------------------------------------------------
 sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev || die "* Cant install package dev!"
@@ -69,6 +68,8 @@ sudo chmod 777 ${pkgcachedir} -R
 
 #extras
 #wget -nv -c http://ftp.osuosl.org/pub/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-4_amd64.deb -P $pkgcachedir
+
+rm -rf ${pkgcachedir}/*dev*
 
 find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
 echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
