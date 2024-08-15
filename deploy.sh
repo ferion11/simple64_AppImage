@@ -33,7 +33,7 @@ mkdir -p ${pkgcachedir}
 #TODO: review the install of packages for appimage above
 #-------------------------------------------------
 
-sudo apt install -y libsdl2-dev libsdl2-net-dev libhidapi-dev qt6-base-dev libvulkan-dev
+sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev qt6-base-dev libvulkan-dev
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
