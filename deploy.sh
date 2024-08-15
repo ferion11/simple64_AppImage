@@ -29,10 +29,11 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng libsdl2 libsdl2-net libhidapi libvulkan qt6-base libqt6websockets6
-#-------------------------------------------------
+#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng libsdl2 libsdl2-net libhidapi libvulkan qt6-base libqt6websockets6 || die "* Cant install package deps!"
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev || die "* Cant install package deps!"
 
-sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev
+#-------------------------------------------------
+sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev || die "* Cant install package dev!"
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
@@ -53,7 +54,7 @@ cd ..
 # using the package
 mkdir "${WORKDIR}"
 
-cp -r simple64-${MY_VERSION} "${WORKDIR}/"
+cp -r simple64-${MY_VERSION}/simple64 "${WORKDIR}/"
 
 cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
 
@@ -65,6 +66,8 @@ sudo chmod 777 ${pkgcachedir} -R
 
 find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
 echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
+
+cd ..
 #-------------------------------------------------
 
 ##clean some packages to use natives ones:
@@ -77,7 +80,6 @@ echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
 
 #===========================================================================================
 # appimage
-cd ..
 
 wget -nv -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O  appimagetool.AppImage
 chmod +x appimagetool.AppImage
@@ -90,10 +92,11 @@ HERE="\$(dirname "\$(readlink -f "\${0}")")"
 # If not extract and overwrite, $HERE/lib is a link to $HERE/usr/lib, that link to $HERE/usr/lib64
 export LD_LIBRARY_PATH="$HERE/usr/lib":$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HERE/lib":$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$HERE/simple64":$LD_LIBRARY_PATH
 
-MAIN="\$HERE/simple64-${P_VERSION}/simple64"
+MAIN="\$HERE/simple64/simple64-gui"
 
-export PATH="\$HERE/simple64-${P_VERSION}":\$PATH
+export PATH="\$HERE/simple64":\$PATH
 "\$MAIN" "\$@" | cat
 EOF
 chmod +x AppRun
