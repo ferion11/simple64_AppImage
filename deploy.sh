@@ -7,9 +7,9 @@ P_VERSION=${MY_VERSION}
 P_FILENAME=$(echo $P_URL | cut -d/ -f9)
 WORKDIR="workdir"
 
-#=========================
+#=================================================
 die() { echo >&2 "$*"; exit 1; };
-#=========================
+#=================================================
 
 #echo "P_NAME: ${P_NAME}"
 #echo "P_VERSION: ${P_VERSION}"
@@ -25,6 +25,14 @@ die() { echo >&2 "$*"; exit 1; };
 sudo apt update
 #apt install -y aptitude wget file bzip2 gcc-multilib
 sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
+#-------------------------------------------------
+pkgcachedir='/tmp/.pkgdeploycache'
+mkdir -p ${pkgcachedir}
+
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net
+#-------------------------------------------------
+
+sudo apt install -y libsdl2-dev libsdl2-net-dev
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
@@ -38,6 +46,7 @@ cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 ./build.sh || die "* Cant build the source!"
 
 
+cd ..
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 
@@ -46,24 +55,20 @@ mkdir "${WORKDIR}"
 
 cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
 
-pkgcachedir='/tmp/.pkgdeploycache'
-mkdir -p $pkgcachedir
 
-
-#sudo aptitude -y -d -o dir::cache::archives="$pkgcachedir" install simple64
-#sudo chmod 777 $pkgcachedir -R
+sudo chmod 777 ${pkgcachedir} -R
 
 #extras
 #wget -nv -c http://ftp.osuosl.org/pub/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-4_amd64.deb -P $pkgcachedir
 
-#find $pkgcachedir -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
-#echo "All files in $pkgcachedir: $(ls $pkgcachedir)"
-#---------------------------------
+find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
+echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
+#-------------------------------------------------
 
 ##clean some packages to use natives ones:
 #rm -rf $pkgcachedir ; rm -rf share/man ; rm -rf usr/share/doc ; rm -rf usr/share/lintian ; rm -rf var ; rm -rf sbin ; rm -rf usr/share/man
 #rm -rf usr/share/mime ; rm -rf usr/share/pkgconfig; rm -rf lib; rm -rf etc;
-#---------------------------------
+#-------------------------------------------------
 #===========================================================================================
 
 ##fix something here:
@@ -78,7 +83,7 @@ chmod +x appimagetool.AppImage
 cat > "AppRun" << EOF
 #!/bin/bash
 HERE="\$(dirname "\$(readlink -f "\${0}")")"
-#------------------------------
+#-------------------------------------------------
 
 MAIN="\$HERE/simple64-${P_VERSION}/simple64"
 
