@@ -29,11 +29,11 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2-2.0-0 libsdl2-net libhidapi-hidraw0 libhidapi-libusb0
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2-dev libsdl2-net-dev libhidapi-dev qt6-base-dev
+#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net libhidapi qt6-base libvulkan
+#TODO: review the install of packages for appimage above
 #-------------------------------------------------
 
-sudo apt install -y libsdl2-dev libsdl2-net-dev libhidapi-dev qt6-base-dev
+sudo apt install -y libsdl2-dev libsdl2-net-dev libhidapi-dev qt6-base-dev libvulkan-dev
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
