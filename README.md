@@ -1,15 +1,15 @@
-[![Automation testing](https://github.com/ferion11/PeaZip_Appimage/workflows/appimage-continuous/badge.svg)](https://github.com/ferion11/PeaZip_Appimage/actions) [![AppImage Build](https://img.shields.io/badge/AppImage-build-blue)](https://github.com/ferion11/PeaZip_Appimage/releases)
+[![Automation testing](https://github.com/ferion11/simple64_AppImage/workflows/appimage-continuous/badge.svg)](https://github.com/ferion11/simple64_AppImage/actions) [![AppImage Build](https://img.shields.io/badge/AppImage-build-blue)](https://github.com/ferion11/simple64_AppImage/releases)
 
-# PeaZip_Appimage
+# Simple64_AppImage
 
-> PeaZip Appimage for linux 64bits
+> Simple64 Appimage for linux 64bits
 
-####  1- Download "PeaZip-VERSION-x86_64.AppImage"
+####  1- Download "simple64-VERSION-x86_64.AppImage"
 ####  2- Make executable:
 ```
-$ chmod +x PeaZip-VERSION-x86_64.AppImage
+$ chmod +x simple64-VERSION-x86_64.AppImage
 ```
 ####  3- Run it:
 ```
-$ ./PeaZip-VERSION-x86_64.AppImage
+$ ./simple64-VERSION-x86_64.AppImage
 ```
