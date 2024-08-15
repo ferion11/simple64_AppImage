@@ -24,7 +24,7 @@ die() { echo >&2 "$*"; exit 1; };
 #dpkg --add-architecture i386
 sudo apt update
 #apt install -y aptitude wget file bzip2 gcc-multilib
-sudo apt install -y aptitude wget file bzip2
+sudo apt install -y aptitude wget file bzip2 build-essential
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
