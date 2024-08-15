@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Simple64
+MimeType=application/x-n64-rom;
+GenericName=Nintendo64 Emulator
+Comment=Nintendo64 Emulator
+Exec=AppRun
+Icon=simple64
+Type=Application
+Terminal=false
+X-KDE-HasTempFileOption=true
+Categories=GTK;KDE;Emulator;System;
+Name[en_US]=Simple64
