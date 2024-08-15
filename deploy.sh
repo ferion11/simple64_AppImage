@@ -34,8 +34,8 @@ tar xf v${MY_VERSION}.tar.gz || die "* Cant extract source code!"
 
 cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 
-./clean || die "* Cant clean compilated!"
-./build || die "* Cant build the source!"
+./clean.sh || die "* Cant clean compilated!"
+./build.sh || die "* Cant build the source!"
 
 
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
