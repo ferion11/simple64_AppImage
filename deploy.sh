@@ -29,7 +29,7 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libsdl2 libsdl2-net libhidapi-hidraw0
 #-------------------------------------------------
 
 sudo apt install -y libsdl2-dev libsdl2-net-dev
