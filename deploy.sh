@@ -30,7 +30,9 @@ pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
 #sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng libsdl2 libsdl2-net libhidapi libvulkan qt6-base libqt6websockets6 || die "* Cant install package deps!"
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev || die "* Cant install package deps!"
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev libcurl3t64-gnutls || die "* Cant install package deps!"
+
+#rm -rf ${pkgcachedir}/*dev*
 
 #-------------------------------------------------
 sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev || die "* Cant install package dev!"
@@ -71,7 +73,8 @@ cd ..
 #-------------------------------------------------
 
 ##clean some packages to use natives ones:
-#rm -rf $pkgcachedir ; rm -rf share/man ; rm -rf usr/share/doc ; rm -rf usr/share/lintian ; rm -rf var ; rm -rf sbin ; rm -rf usr/share/man
+#rm -rf $pkgcachedir ; rm -rf etc ; 
+#rm -rf share/man ; rm -rf usr/share/doc ; rm -rf usr/share/lintian ; rm -rf var ; rm -rf sbin ; rm -rf usr/share/man
 #rm -rf usr/share/mime ; rm -rf usr/share/pkgconfig; rm -rf lib; rm -rf etc;
 #-------------------------------------------------
 #===========================================================================================
@@ -89,10 +92,10 @@ cat > "AppRun" << EOF
 HERE="\$(dirname "\$(readlink -f "\${0}")")"
 #-------------------------------------------------
 
-# If not extract and overwrite, $HERE/lib is a link to $HERE/usr/lib, that link to $HERE/usr/lib64
-export LD_LIBRARY_PATH="$HERE/usr/lib":$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="$HERE/lib":$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="$HERE/simple64":$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="\$HERE/usr/lib/x86_64-linux-gnu":\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="\$HERE/lib":\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
 
 MAIN="\$HERE/simple64/simple64-gui"
 
