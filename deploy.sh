@@ -29,23 +29,16 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev libcurl3t64-gnutls || die "* Cant install package deps!"
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls || die "* Cant install package deps!"
 
-# baixando deb de pacote jah instalado: libcurl3t64-gnutls
-PACKAGE_NAME="libcurl3t64-gnutls"
-DOWNLOAD_DIR="${pkgcachedir}"
-INSTALLED_VERSION=$(sudo apt-cache policy $PACKAGE_NAME | grep Installed | awk '{print $2}')
-if [ -z "$INSTALLED_VERSION" ]; then
-    echo "Pacote $PACKAGE_NAME não está instalado."
-    exit 1
-fi
-sudo apt-get download $PACKAGE_NAME=$INSTALLED_VERSION -o dir::cache::archives="$DOWNLOAD_DIR"
+#extras: libcurl3t64-gnutls
+wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
 
 
 #rm -rf ${pkgcachedir}/*dev*
 
 #-------------------------------------------------
-sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev libqt6websockets6-dev || die "* Cant install package dev!"
+sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev || die "* Cant install package dev!"
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
