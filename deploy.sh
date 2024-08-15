@@ -31,8 +31,9 @@ mkdir -p ${pkgcachedir}
 
 sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls || die "* Cant install package deps!"
 
-#extras: libcurl3t64-gnutls
+#extras: libcurl3t64-gnutls libssh
 wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
+wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10.6-2build2_amd64.deb -P $pkgcachedir
 
 
 #rm -rf ${pkgcachedir}/*dev*
