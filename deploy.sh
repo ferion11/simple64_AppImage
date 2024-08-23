@@ -130,3 +130,4 @@ export ARCH=x86_64; squashfs-root/AppRun -v $WORKDIR -u 'gh-releases-zsync|ferio
 rm -rf appimagetool.AppImage
 
 echo "All files at the end of script: $(ls)"
+
