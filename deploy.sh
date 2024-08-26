@@ -33,10 +33,14 @@ sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls || die "* Cant install package deps!"
+packages_to_install="libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls"
+packages_to_download="libcurl3t64-gnutls libssh libldap2 libsasl2 libc6 libglib2.0-dev libgssapi-krb5"
+
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_install} || die "* Cant download package to install deps!"
 
 # download deb files from installed packages using aptitude
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download libcurl3t64-gnutls libssh libldap2 libsasl2 libc6 libglib2.0-dev libgssapi-krb5 || die "* Cant download package deps!"
+sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_download} || die "* Cant download package deps!"
+
 
 
 #-------------------------------------------------
