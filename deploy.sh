@@ -57,6 +57,8 @@ cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 
 ####### POG #######
 sed -i 's/wget -q/wget -c/g' build.sh
+sed -i 's/cmake/#cmake/g' build.sh
+sed -i 's/set -e/set -x/g' build.sh
 ####### END POG #######
 
 ./build.sh || die "* Cant build the source!"
