@@ -34,7 +34,7 @@ pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
 packages_to_install="libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls"
-packages_to_download="libcurl3t64-gnutls libssh libldap2 libsasl2 libc6 libglib2.0-dev libgssapi-krb5"
+packages_to_download="libcurl3t64-gnutls libssh-4 libldap2 libsasl2-2 libc6 libglib2.0-dev libgssapi-krb5-2"
 
 sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_install} || die "* Cant download package to install deps!"
 
