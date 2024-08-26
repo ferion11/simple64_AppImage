@@ -56,14 +56,7 @@ cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 ./clean.sh || die "* Cant clean compilated!"
 
 ####### POG #######
-mkdir vosk
-cd vosk
-
-wget -nv https://github.com/alphacep/vosk-api/releases/download/v0.3.45/vosk-linux-x86_64-0.3.45.zip
-unzip -jq ./*.zip
-rm ./*.zip
-
-cd ..
+sed -i 's/wget -q/wget -c/g' build.sh
 ####### END POG #######
 
 ./build.sh || die "* Cant build the source!"
