@@ -28,7 +28,8 @@ die() { echo >&2 "$*"; exit 1; };
 #dpkg --add-architecture i386
 sudo apt update
 #apt install -y aptitude wget file bzip2 gcc-multilib
-sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
+#sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
+sudo apt install -y wget file bzip2 build-essential ninja-build
 #-------------------------------------------------
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
@@ -41,7 +42,7 @@ packages_to_download="libcurl3t64-gnutls libssh-4 libldap2 libsasl2-2 libc6 libg
 # download deb files from installed packages using aptitude
 #sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_download} || die "* Cant download package deps!"
 
-sudo apt-get install --download-only ${packages_to_install} ${packages_to_download} || die "* Cant download package deps!"
+sudo apt-get reinstall --download-only ${packages_to_install} ${packages_to_download} || die "* Cant download package deps!"
 
 cp /var/cache/apt/archives/*.deb ${pkgcachedir}
 
@@ -130,7 +131,8 @@ MAIN="\$HERE/simple64/simple64-gui"
 
 export PATH="\$HERE/simple64":\$PATH
 #"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
-"\$MAIN" "\$@" | cat
+#"\$MAIN" "\$@" | cat
+"\$MAIN" "\$@" 
 EOF
 chmod +x AppRun
 
