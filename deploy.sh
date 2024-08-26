@@ -1,5 +1,5 @@
 #!/bin/bash
-MY_VERSION="2024.06.2"
+MY_VERSION="2024.08.1"
 P_URL="https://github.com/simple64/simple64/archive/refs/tags/v${MY_VERSION}.tar.gz"
 #P_NAME=$(echo $P_URL | cut -d/ -f5)
 P_NAME="simple64"
