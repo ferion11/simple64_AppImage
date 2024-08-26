@@ -1,5 +1,9 @@
 #!/bin/bash
-MY_VERSION="2024.06.2"
+
+#to debug
+#set -x
+
+MY_VERSION="2024.08.1"
 P_URL="https://github.com/simple64/simple64/archive/refs/tags/v${MY_VERSION}.tar.gz"
 #P_NAME=$(echo $P_URL | cut -d/ -f5)
 P_NAME="simple64"
@@ -24,26 +28,26 @@ die() { echo >&2 "$*"; exit 1; };
 #dpkg --add-architecture i386
 sudo apt update
 #apt install -y aptitude wget file bzip2 gcc-multilib
-sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
+#sudo apt install -y aptitude wget file bzip2 build-essential ninja-build
+sudo apt install -y wget file bzip2 build-essential ninja-build
 #-------------------------------------------------
 pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev libcurl3t64-gnutls || die "* Cant install package deps!"
+packages_to_install="libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev"
+packages_to_download="libcurl3t64-gnutls libssh-4 libldap2 libsasl2-2 libc6 libglib2.0-dev libgssapi-krb5-2 libicu74 libkrb5-3 libk5crypto3 libkrb5support0 librtmp1 libselinux1"
 
-#extras: libcurl3t64-gnutls libssh libldap2 libsasl2
-wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
-wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10.6-2build2_amd64.deb -P $pkgcachedir
-wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/o/openldap/libldap2_2.6.7+dfsg-1~exp1ubuntu8_amd64.deb -P $pkgcachedir
-wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-5ubuntu3_amd64.deb -P $pkgcachedir
+#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_install} || die "* Cant download package to install deps!"
 
-#base
-wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
-wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-dev_2.80.0-6ubuntu3.1_amd64.deb -P $pkgcachedir
+# download deb files from installed packages using aptitude
+#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_download} || die "* Cant download package deps!"
 
+sudo apt-get reinstall --download-only ${packages_to_install} ${packages_to_download} || die "* Cant download package deps!"
+
+cp /var/cache/apt/archives/*.deb ${pkgcachedir}
 
 #-------------------------------------------------
-sudo apt install -y libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev || die "* Cant install package dev!"
+sudo apt install -y ${packages_to_install} || die "* Cant install package dev!"
 #######-------#######-------#######-------#######-------#######-------#######-------#######-------
 
 # Get simple64 code
@@ -54,6 +58,14 @@ tar xf v${MY_VERSION}.tar.gz || die "* Cant extract source code!"
 cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 
 ./clean.sh || die "* Cant clean compilated!"
+
+####### POG #######
+#sed -i 's/wget -q/wget -c/g' build.sh
+#sed -i 's/cmake/#cmake/g' build.sh
+#sed -i 's/set -e/set -x/g' build.sh
+#echo "exit 0" >> build.sh
+####### END POG #######
+
 ./build.sh || die "* Cant build the source!"
 
 
@@ -64,6 +76,7 @@ cd ..
 # using the package
 mkdir "${WORKDIR}"
 
+echo "copying simple64 dir"
 cp -r simple64-${MY_VERSION}/simple64 "${WORKDIR}/"
 
 cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
@@ -71,15 +84,17 @@ cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
 
 sudo chmod 777 ${pkgcachedir} -R
 
-# manual copy all usr libs
-cp -a -r /usr ./
+# manual copy all usr libs (cancelled because of size: 27GB)
+#echo "copying usr dir"
+#du -hs /usr
+#cp -a -rv /usr ./
 
 #extras
 #wget -nv -c http://ftp.osuosl.org/pub/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-4_amd64.deb -P $pkgcachedir
 
 
-#find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
-#echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
+find ${pkgcachedir} -name '*deb' ! -name 'mesa*' -exec dpkg -x {} . \;
+echo "All files in ${pkgcachedir}: $(ls ${pkgcachedir})"
 
 #-------------------------------------------------
 
@@ -105,7 +120,7 @@ HERE="\$(dirname "\$(readlink -f "\${0}")")"
 #-------------------------------------------------
 
 ##LD
-#export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
+export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
 
 export LD_LIBRARY_PATH="\$HERE/usr/lib/x86_64-linux-gnu":\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\$LD_LIBRARY_PATH
@@ -115,8 +130,10 @@ export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
 MAIN="\$HERE/simple64/simple64-gui"
 
 export PATH="\$HERE/simple64":\$PATH
+"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@"
 #"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
-"\$MAIN" "\$@" | cat
+#"\$MAIN" "\$@" | cat
+#"\$MAIN" "\$@" 
 EOF
 chmod +x AppRun
 
@@ -130,3 +147,9 @@ export ARCH=x86_64; squashfs-root/AppRun -v $WORKDIR -u 'gh-releases-zsync|ferio
 rm -rf appimagetool.AppImage
 
 echo "All files at the end of script: $(ls)"
+
+# test execution
+#chmod +x ${P_NAME}-v${P_VERSION}-${ARCH}.AppImage
+#./${P_NAME}-v${P_VERSION}-${ARCH}.AppImage || die "* Cant execute the AppImage!"
+
+
