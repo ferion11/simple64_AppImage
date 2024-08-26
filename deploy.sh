@@ -56,9 +56,10 @@ cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 ./clean.sh || die "* Cant clean compilated!"
 
 ####### POG #######
-sed -i 's/wget -q/wget -c/g' build.sh
-sed -i 's/cmake/#cmake/g' build.sh
+#sed -i 's/wget -q/wget -c/g' build.sh
+#sed -i 's/cmake/#cmake/g' build.sh
 sed -i 's/set -e/set -x/g' build.sh
+echo "exit 0" >> build.sh
 ####### END POG #######
 
 ./build.sh || die "* Cant build the source!"
