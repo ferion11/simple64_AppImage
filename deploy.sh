@@ -1,4 +1,8 @@
 #!/bin/bash
+
+#to debug
+#set -x
+
 MY_VERSION="2024.08.1"
 P_URL="https://github.com/simple64/simple64/archive/refs/tags/v${MY_VERSION}.tar.gz"
 #P_NAME=$(echo $P_URL | cut -d/ -f5)
@@ -58,8 +62,8 @@ cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 ####### POG #######
 #sed -i 's/wget -q/wget -c/g' build.sh
 #sed -i 's/cmake/#cmake/g' build.sh
-sed -i 's/set -e/set -x/g' build.sh
-echo "exit 0" >> build.sh
+#sed -i 's/set -e/set -x/g' build.sh
+#echo "exit 0" >> build.sh
 ####### END POG #######
 
 ./build.sh || die "* Cant build the source!"
@@ -72,6 +76,7 @@ cd ..
 # using the package
 mkdir "${WORKDIR}"
 
+echo "copying simple64 dir"
 cp -r simple64-${MY_VERSION}/simple64 "${WORKDIR}/"
 
 cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
@@ -80,7 +85,9 @@ cd "$WORKDIR" || die "ERROR: Directory don't exist: ${WORKDIR}"
 sudo chmod 777 ${pkgcachedir} -R
 
 # manual copy all usr libs
-cp -a -r /usr ./
+echo "copying usr dir"
+du -hs /usr
+cp -a -rv /usr ./
 
 #extras
 #wget -nv -c http://ftp.osuosl.org/pub/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-4_amd64.deb -P $pkgcachedir
@@ -123,8 +130,8 @@ export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
 MAIN="\$HERE/simple64/simple64-gui"
 
 export PATH="\$HERE/simple64":\$PATH
-#"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
-"\$MAIN" "\$@" | cat
+"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
+#"\$MAIN" "\$@" | cat
 EOF
 chmod +x AppRun
 
