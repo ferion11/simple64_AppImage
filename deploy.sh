@@ -53,6 +53,17 @@ tar xf v${MY_VERSION}.tar.gz || die "* Cant extract source code!"
 
 cd simple64-${MY_VERSION} || die "* Cant enter the source dir!"
 
+####### POG #######
+mkdir vosk
+cd vosk
+
+wget -nv https://github.com/alphacep/vosk-api/releases/download/v0.3.45/vosk-linux-x86_64-0.3.45.zip
+unzip -jq ./*.zip
+rm ./*.zip
+
+cd ..
+####### END POG #######
+
 ./clean.sh || die "* Cant clean compilated!"
 ./build.sh || die "* Cant build the source!"
 
