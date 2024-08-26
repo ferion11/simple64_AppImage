@@ -120,7 +120,7 @@ HERE="\$(dirname "\$(readlink -f "\${0}")")"
 #-------------------------------------------------
 
 ##LD
-#export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
+export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
 
 export LD_LIBRARY_PATH="\$HERE/usr/lib/x86_64-linux-gnu":\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\$LD_LIBRARY_PATH
@@ -130,9 +130,10 @@ export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
 MAIN="\$HERE/simple64/simple64-gui"
 
 export PATH="\$HERE/simple64":\$PATH
+"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@"
 #"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
 #"\$MAIN" "\$@" | cat
-"\$MAIN" "\$@" 
+#"\$MAIN" "\$@" 
 EOF
 chmod +x AppRun
 
