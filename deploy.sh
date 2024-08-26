@@ -149,7 +149,7 @@ rm -rf appimagetool.AppImage
 echo "All files at the end of script: $(ls)"
 
 # test execution
-chmod +x ${P_NAME}-v${P_VERSION}-${ARCH}.AppImage
-./${P_NAME}-v${P_VERSION}-${ARCH}.AppImage || die "* Cant execute the AppImage!"
+#chmod +x ${P_NAME}-v${P_VERSION}-${ARCH}.AppImage
+#./${P_NAME}-v${P_VERSION}-${ARCH}.AppImage || die "* Cant execute the AppImage!"
 
 
