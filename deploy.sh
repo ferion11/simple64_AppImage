@@ -37,17 +37,17 @@ sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" install libpng-dev 
 
 
 # download deb files from installed packages using aptitude
-sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download libcurl3t64-gnutls libssh libldap2 libsasl2 libc6 libglib2.0-dev
+#sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download libcurl3t64-gnutls libssh libldap2 libsasl2 libc6 libglib2.0-dev
 
 #extras: libcurl3t64-gnutls libssh libldap2 libsasl2
-#wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
-#wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10.6-2build2_amd64.deb -P $pkgcachedir
-#wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/o/openldap/libldap2_2.6.7+dfsg-1~exp1ubuntu8_amd64.deb -P $pkgcachedir
-#wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-5ubuntu3_amd64.deb -P $pkgcachedir
+wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3t64-gnutls_8.5.0-2ubuntu10.2_amd64.deb -P $pkgcachedir
+wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/libs/libssh/libssh-4_0.10.6-2build2_amd64.deb -P $pkgcachedir
+wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/o/openldap/libldap2_2.6.7+dfsg-1~exp1ubuntu8_amd64.deb -P $pkgcachedir
+wget -nv -c http://mirrors.kernel.org/ubuntu/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-5ubuntu3_amd64.deb -P $pkgcachedir
 
 #base
-#wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
-#wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-dev_2.80.0-6ubuntu3.1_amd64.deb -P $pkgcachedir
+wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.39-0ubuntu8.2_amd64.deb -P $pkgcachedir
+wget -nv -c http://security.ubuntu.com/ubuntu/pool/main/g/glib2.0/libglib2.0-dev_2.80.0-6ubuntu3.1_amd64.deb -P $pkgcachedir
 
 
 
