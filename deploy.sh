@@ -35,14 +35,15 @@ pkgcachedir='/tmp/.pkgdeploycache'
 mkdir -p ${pkgcachedir}
 
 packages_to_install="libpng-dev libsdl2-dev libsdl2-net-dev libhidapi-dev libvulkan-dev qt6-base-dev qt6-websockets-dev"
-packages_to_download="libcurl3t64-gnutls libssh-4 libldap2 libsasl2-2 libc6 libglib2.0-dev libgssapi-krb5-2 libicu74 libkrb5-3 libk5crypto3 libkrb5support0 librtmp1 libselinux1"
+packages_to_download="libcurl3t64-gnutls libssh-4 libldap2 libsasl2-2 libc6 libglib2.0-dev libglib2.0-0t64 libgssapi-krb5-2 libicu74 libkrb5-3 libk5crypto3 libkrb5support0 librtmp1 libselinux1 libxcb-cursor0 libpcre2-16-0 libx11-xcb-dev"
+packages_to_download_extra_qt6="libb2-1 libdouble-conversion3 libgl-dev libglx-dev libmd4c0 libopengl-dev libqt6concurrent6t64 libqt6core5compat6 libqt6core6t64 libqt6dbus6t64 libqt6gui6t64 libqt6network6t64 libqt6opengl6t64 libqt6openglwidgets6t64 libqt6printsupport6t64 libqt6qml6 libqt6qmlmodels6 libqt6quick6 libqt6sql6-sqlite libqt6sql6t64 libqt6test6t64 libqt6waylandclient6 libqt6waylandcompositor6 libqt6waylandeglclienthwintegration6 libqt6waylandeglcompositorhwintegration6 libqt6widgets6t64 libqt6wlshellintegration6 libqt6xml6t64 libts0t64 qmake6 qmake6-bin qt6-5compat-dev qt6-base-dev-tools qt6-gtk-platformtheme qt6-qpa-plugins qt6-translations-l10n qt6-wayland"
 
 #sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_install} || die "* Cant download package to install deps!"
 
 # download deb files from installed packages using aptitude
 #sudo aptitude -y -d -o dir::cache::archives="${pkgcachedir}" download ${packages_to_download} || die "* Cant download package deps!"
 
-sudo apt-get reinstall --download-only ${packages_to_install} ${packages_to_download} || die "* Cant download package deps!"
+sudo apt-get reinstall --download-only ${packages_to_install} ${packages_to_download} ${packages_to_download_extra_qt6} || die "* Cant download package deps!"
 
 cp /var/cache/apt/archives/*.deb ${pkgcachedir}
 
@@ -122,18 +123,20 @@ HERE="\$(dirname "\$(readlink -f "\${0}")")"
 ##LD
 export MAIN64LDLIBRARY="\${HERE}/usr/lib64/ld-linux-x86-64.so.2"
 
-export LD_LIBRARY_PATH="\$HERE/usr/lib/x86_64-linux-gnu":\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="\$HERE/lib":\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="\$HERE/simple64":\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu":\${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/libproxy":\${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="\${HERE}/lib":\${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="\${HERE}/simple64":\${LD_LIBRARY_PATH}
 
-MAIN="\$HERE/simple64/simple64-gui"
+export QT_PLUGIN_PATH="\${HERE}/usr/lib/x86_64-linux-gnu/qt6/plugins"
 
-export PATH="\$HERE/simple64":\$PATH
-"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@"
-#"\${MAIN64LDLIBRARY}" "\$MAIN" "\$@" | cat
-#"\$MAIN" "\$@" | cat
-#"\$MAIN" "\$@" 
+MAIN="\${HERE}/simple64/simple64-gui"
+
+export PATH="\${HERE}/simple64":\${PATH}
+"\${MAIN64LDLIBRARY}" "\${MAIN}" "\$@"
+#"\${MAIN64LDLIBRARY}" "\${MAIN}" "\$@" | cat
+#"\${MAIN}" "\$@" | cat
+#"\${MAIN}" "\$@" 
 EOF
 chmod +x AppRun
 
